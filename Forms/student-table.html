@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Educational registration form</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="container">
+    <h3 style="text-align: center">Student Details</h3>
+    <form onsubmit="pushData(this, event)" class="col-6">
+      <label>
+        Name
+        <input
+          required
+          class="form-control"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Enter your name"
+        />
+      </label>
+
+      <label>
+        Section
+        <input
+          required
+          class="form-control"
+          type="text"
+          name="section"
+          id="section"
+          placeholder="Enter your section"
+        />
+      </label>
+
+      <label>
+        Number
+        <input
+          required
+          class="form-control"
+          type="tel"
+          name="number"
+          id="number"
+          placeholder="Enter your number"
+        />
+      </label>
+
+      <label>
+        Year
+        <select
+          class="form-control"
+          id="exampleFormControlSelect1"
+          name="year"
+          required
+        >
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+        </select>
+      </label>
+
+      <!--        <button onclick="pushData()">Submit</button>-->
+      <input type="submit" class="btn btn-primary" />
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        View Submissions
+      </button>
+    </form>
+
+    <div id="exampleModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Submissions</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <table class="table table-bordered">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Name</th>
+                    <th>Section</th>
+                    <th>Number</th>
+                    <th>Year</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+form {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+
+}
+
+input {
+    margin-top: 5px;
+}
+label {
+    text-align : center;
+}
+table {
+    margin-top: 20px;
+}
+.btn-secondary {
+    margin-top: 15px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.btn-primary {
+    width: 50%;
+    margin: auto;
+}

@@ -1,0 +1,40 @@
+.form-control {
+    width : 100%;
+}
+.search   {
+    text-align: center;
+    padding: 20px;
+    font-size: 24px;
+}
+label {
+    width: 100%;
+    padding: 25px;
+
+}
+.table {
+justify-content: center;
+    display: flex;
+    margin-top: 24px;
+}
+
+.card.weather-card .degree:after {
+    /*content: &#8451;*/
+    position: absolute;
+    font-size: 3rem;
+    margin-top: .9rem;
+    font-weight: 400;
+}
+
+.degree{
+    font-size: 3rem;
+    position: absolute;
+    margin-top: 12px;
+}
+li {
+    cursor: pointer;
+
+}
+
+.max-min {
+    font-size: 3rem;
+}

@@ -1,0 +1,98 @@
+body {
+  font: 20px Montserrat, sans-serif;
+  line-height: 1.8;
+  color: #f5f6f7;
+}
+
+p {
+  font-size: 16px;
+}
+
+.margin {
+  margin-bottom: 45px;
+}
+
+.bg-1 {
+  background-color: black;
+  color: #ffffff;
+}
+
+.bg-2 {
+  background-color: #474e5d;
+  /* Dark Blue */
+  color: #ffffff;
+}
+
+.bg-3 {
+  background-color: #ffffff;
+  /* White */
+  color: #555555;
+}
+
+.bg-4 {
+  background-color: #2f2f2f;
+  /* Black Gray */
+  color: #fff;
+}
+
+.container-fluid {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.navbar {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  letter-spacing: 5px;
+}
+
+.navbar-nav li a:hover {
+  color: #1abc9c !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+.footer-image {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.footer-parent {
+  width: 200px;
+  margin: auto;
+}
+
+img {
+  filter: grayscale(1);
+  transition: filter 0.5s ease-in-out;
+}
+img:hover {
+  filter: grayscale(0);
+}
+
+.theme1 {
+  font: 24px Staatliches, sans-serif;
+  font-family: "Staatliches", cursive;
+}
+.theme1 nav {
+  background: #f4511e;
+}
+.theme1 nav a {
+  color: white !important;
+}
+.theme1 #first, .theme1 #third {
+  background: white;
+  color: black;
+}
+.theme1 #second, .theme1 footer {
+  background: #f4511e;
+  color: white;
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,10 +1,10 @@
-let studentArray = [];
+  let studentArray = [];
 
 function pushData(form, event) {
   debugger;
   event.preventDefault();
   // const form = document.querySelector("form");
-  var studentObject = {
+  let studentObject = {
     name: form.name.value,
     section: form.section.value,
     number: form.number.value,
@@ -14,7 +14,7 @@ function pushData(form, event) {
   showData();
   clearForm(form);
 
-  
+
   // studentArray.push(form.section.value);
   // studentArray.push(form.number.value);
   // studentArray.push(form.year.value);

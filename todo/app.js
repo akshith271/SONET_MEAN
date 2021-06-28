@@ -1,94 +1,104 @@
+let todos = [];
+const EDIT= 'Edit';
+const SUBMIT = 'Submit';
 window.onload = () => {
-    //on load
-    const form1 = document.querySelector("#addForm");
+    let submit = document.getElementById('submit');
+    const isEditMode = () => {
+        return submit.value === EDIT;
+    }
 
-    let items = document.getElementById("items");
-    let submit = document.getElementById("submit");
+    document.querySelector('#addForm').addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        addItem();
+    });
 
-    let editItem = null;
+    function addItem() {
+        if (isEditMode()) {
+            todos = todos.map((item) => {
+                if (item.isEditing) {
+                    return {
+                        id: item.id,
+                        value: getInputValue(),
+                    };
+                }
+                return item;
+            });
+            toggleInputMode();
+            notify(true);
+        } else {
+            todos.push({
+                id: todos.length,
+                value: getInputValue(),
+            });
+        }
 
-    //listeners to be added here
+        setInputValue('');
+        renderTodos();
+    }
 };
 
-function addItemm(e) {
-    e.preventDefault();
+function notify(isEdit = false) {
+    const success = document.getElementById('lblsuccess');
+    success.innerHTML = `Text ${isEdit ? 'edited' : 'deleted'} successfully`;
 
-    if (submit.value !== "Submit") {
-        console.log("Hello");
+    success.style.display = 'block';
 
-        editItem.target.parentNode.childNodes[0].data
-            = document.getElementById("item").value;
-
-        submit.value = "Submit";
-        document.getElementById("item").value = "";
-
-        document.getElementById("lblsuccess").innerHTML
-            = "Text edited successfully";
-
-        document.getElementById("lblsuccess")
-            .style.display = "block";
-
-        setTimeout(function() {
-            document.getElementById("lblsuccess")
-                .style.display = "non";
-        }, 3000);
-
-        return false;
-    }
-
-    let newItem = document.getElementById("item").value;
-    if (newItem.trim() == "" || newItem.trim() == null)
-        return false;
-    else
-        document.getElementById("item").value = "";
-
-    let li = document.createElement("li");
-    li.className = "list-group-item";
-
-    let deleteButton = document.createElement("button");
-
-    deleteButton.className =
-        "btn-danger btn btn-sm float-right delete";
-
-    deleteButton.appendChild(document.createTextNode("Delete"));
-
-    let editButton = document.createElement("button");
-
-    editButton.className =
-        "btn-success btn btn-sm float-right edit";
-
-    editButton.appendChild(document.createTextNode("Edit"));
-
-    li.appendChild(document.createTextNode(newItem));
-    li.appendChild(deleteButton);
-    li.appendChild(editButton);
-
-    items.appendChild(li);
+    setTimeout(function () {
+        success.style.display = 'none';
+    }, 3000);
 }
 
-function removeItem(e) {
-    e.preventDefault();
-    if (e.target.classList.contains("delete")) {
-        if (confirm("Are you Sure?")) {
-            let li = e.target.parentNode;
-            items.removeChild(li);
-            document.getElementById("success").innerHTML
-                = "Text deleted successfully";
+function renderTodos() {
+    let content = '';
 
-            document.getElementById("lblsuccess")
-                .style.display = "block";
-            setTimeout(function() {
-                document.getElementById("lblsuccess")
-                    .style.display = "none";
-            }, 3000);
-        }
-    }
-    if (e.target.classList.contains("edit")) {
-        document.getElementById("item").value =
-            e.target.parentNode.childNodes[0].data;
-        submit.value = "EDIT";
-        editItem = e;
+    todos.forEach((item) => {
+        const { id, value } = item;
+        content += `
+        <li class="list-group-item" id="${id}" data-content="${value}">
+                ${value}
+            <button class="btn-danger btn btn-sm float-right delete" onclick="removeItem(${id})">
+                Delete
+            </button>
+            <button class="btn-success btn btn-sm float-right edit" onclick="editItem(${id})">
+                Edit
+            </button>
+        </li>
+        `;
+    });
+    document.getElementById('items').innerHTML = content;
+    console.log(todos);
+}
+
+function toggleButton(inputEle, buttonId) {
+    const submitButton = document.getElementById(buttonId);
+    const { value } = inputEle;
+    submitButton.disabled = !value.trim();
+}
+
+function removeItem(id) {
+    if (confirm('Are you Sure?')) {
+        todos = todos.filter((item) => item.id !== id);
+        renderTodos();
+        notify();
     }
 }
 
-//enable submit button here
+function editItem(id) {
+    const currentTodo = todos.find((item) => item.id === id);
+    currentTodo.isEditing = true;
+    toggleInputMode();
+    setInputValue(currentTodo.value);
+}
+
+function toggleInputMode() {
+    const submitButton = document.getElementById('submit');
+    submitButton.value = submitButton.value === EDIT ? SUBMIT: EDIT;
+}
+
+function getInputValue() {
+    return document.getElementById('item').value.trim();
+}
+
+function setInputValue(value) {
+    document.getElementById('item').value = value;
+}

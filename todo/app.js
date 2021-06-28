@@ -1,16 +1,19 @@
 let todos = [];
-
+const EDIT= 'Edit';
+const SUBMIT = 'Submit';
 window.onload = () => {
-    const form1 = document.querySelector('#addForm');
-
     let submit = document.getElementById('submit');
+    const isEditMode = () => {
+        return submit.value === EDIT;
+    }
 
-    form1.addEventListener('submit', addItem);
+    document.querySelector('#addForm').addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        addItem();
+    });
 
-    function addItem(e) {
-        e.preventDefault();
-
-        if (submit.value === 'EDIT') {
+    function addItem() {
+        if (isEditMode()) {
             todos = todos.map((item) => {
                 if (item.isEditing) {
                     return {
@@ -20,7 +23,7 @@ window.onload = () => {
                 }
                 return item;
             });
-            submit.value = 'Submit';
+            toggleInputMode();
             notify(true);
         } else {
             todos.push({
@@ -83,9 +86,13 @@ function removeItem(id) {
 function editItem(id) {
     const currentTodo = todos.find((item) => item.id === id);
     currentTodo.isEditing = true;
-    const submitButton = document.getElementById('submit');
-    submitButton.value = 'EDIT';
+    toggleInputMode();
     setInputValue(currentTodo.value);
+}
+
+function toggleInputMode() {
+    const submitButton = document.getElementById('submit');
+    submitButton.value = submitButton.value === EDIT ? SUBMIT: EDIT;
 }
 
 function getInputValue() {

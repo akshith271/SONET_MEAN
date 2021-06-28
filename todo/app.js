@@ -1,55 +1,70 @@
+let todos = [];
+
 window.onload = () => {
     const form1 = document.querySelector('#addForm');
 
-    let items = document.getElementById('items');
     let submit = document.getElementById('submit');
 
     form1.addEventListener('submit', addItem);
 
     function addItem(e) {
         e.preventDefault();
+
         if (submit.value === 'EDIT') {
-            const liId = submit.dataset.currentItemId;
-            const li = document.getElementById(liId);
-            const inputEle = document.getElementById('item');
-
-            li.dataset.content = inputEle.value;
-            li.childNodes[0].data = inputEle.value;
-
+            todos = todos.map((item) => {
+                if (item.isEditing) {
+                    return {
+                        id: item.id,
+                        value: getInputValue(),
+                    };
+                }
+                return item;
+            });
             submit.value = 'Submit';
-            inputEle.value = '';
-
-            const success = document.getElementById('lblsuccess');
-            success.innerHTML = 'Text edited successfully';
-
-            success.style.display = 'block';
-
-            setTimeout(function () {
-                success.style.display = 'none';
-            }, 3000);
-
-            return;
+            notify(true);
+        } else {
+            todos.push({
+                id: todos.length,
+                value: getInputValue(),
+            });
         }
 
-        let newItem = document.getElementById('item').value;
-        if (!newItem.trim()) return;
+        setInputValue('');
+        renderTodos();
+    }
+};
 
-        document.getElementById('item').value = '';
+function notify(isEdit = false) {
+    const success = document.getElementById('lblsuccess');
+    success.innerHTML = `Text ${isEdit ? 'edited' : 'deleted'} successfully`;
 
-        const index = items.children.length;
-        items.innerHTML += `
-        <li class="list-group-item" id="${index}" data-content="${newItem}">
-                ${newItem}
-            <button class="btn-danger btn btn-sm float-right delete" onclick="removeItem(${index})">
+    success.style.display = 'block';
+
+    setTimeout(function () {
+        success.style.display = 'none';
+    }, 3000);
+}
+
+function renderTodos() {
+    let content = '';
+
+    todos.forEach((item) => {
+        const { id, value } = item;
+        content += `
+        <li class="list-group-item" id="${id}" data-content="${value}">
+                ${value}
+            <button class="btn-danger btn btn-sm float-right delete" onclick="removeItem(${id})">
                 Delete
             </button>
-            <button class="btn-success btn btn-sm float-right edit" onclick="editItem(${index})">
+            <button class="btn-success btn btn-sm float-right edit" onclick="editItem(${id})">
                 Edit
             </button>
         </li>
         `;
-    }
-};
+    });
+    document.getElementById('items').innerHTML = content;
+    console.log(todos);
+}
 
 function toggleButton(inputEle, buttonId) {
     const submitButton = document.getElementById(buttonId);
@@ -58,28 +73,25 @@ function toggleButton(inputEle, buttonId) {
 }
 
 function removeItem(id) {
-    const li = document.getElementById(id);
-    const items = document.getElementById('items');
     if (confirm('Are you Sure?')) {
-        items.removeChild(li);
-        const success = document.getElementById('lblsuccess');
-
-        success.innerHTML = 'Text deleted successfully';
-
-        success.style.display = 'block';
-        setTimeout(function () {
-            success.style.display = 'none';
-        }, 3000);
+        todos = todos.filter((item) => item.id !== id);
+        renderTodos();
+        notify();
     }
 }
 
 function editItem(id) {
-    const li = document.getElementById(id);
-    const inputEle = document.getElementById('item');
-    inputEle.value = li.dataset.content;
-
+    const currentTodo = todos.find((item) => item.id === id);
+    currentTodo.isEditing = true;
     const submitButton = document.getElementById('submit');
     submitButton.value = 'EDIT';
-    submitButton.dataset.currentItemId = id;
+    setInputValue(currentTodo.value);
 }
 
+function getInputValue() {
+    return document.getElementById('item').value.trim();
+}
+
+function setInputValue(value) {
+    document.getElementById('item').value = value;
+}
